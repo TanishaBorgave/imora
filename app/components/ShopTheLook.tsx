@@ -1,15 +1,14 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface Look {
   id: string;
   title: string;
-  video: string;
-  poster: string;
+  image: string;
   href: string;
 }
 
@@ -17,36 +16,31 @@ const looks: Look[] = [
   {
     id: "look-1",
     title: "Ahana Sage Block Print Short Kurti",
-    video: "https://videos.pexels.com/video-files/8467472/8467472-sd_540_960_25fps.mp4",
-    poster: "/images/product-1.png",
+    image: "/images/product-1.png",
     href: "/products/ahana-sage-block-print-short-kurti",
   },
   {
     id: "look-2",
     title: "Meera Terracotta Flowing Cotton Kaftan",
-    video: "https://videos.pexels.com/video-files/7685601/7685601-hd_1080_1920_30fps.mp4",
-    poster: "/images/product-2.png",
+    image: "/images/product-2.png",
     href: "/products/meera-terracotta-flowing-cotton-kaftan",
   },
   {
     id: "look-3",
     title: "Rumi Mustard Oversized Relaxed Top",
-    video: "https://videos.pexels.com/video-files/7685324/7685324-hd_1080_1920_30fps.mp4",
-    poster: "/images/product-3.png",
+    image: "/images/product-3.png",
     href: "/products/rumi-mustard-oversized-relaxed-top",
   },
   {
     id: "look-4",
     title: "Noor Indigo Block Print Midi Dress",
-    video: "https://videos.pexels.com/video-files/6146197/6146197-hd_1080_1920_25fps.mp4",
-    poster: "/images/product-4.png",
+    image: "/images/product-4.png",
     href: "/products/noor-indigo-block-print-midi-dress",
   },
   {
     id: "look-5",
     title: "Tara Stripe Cotton Co-ord Set",
-    video: "https://videos.pexels.com/video-files/6146187/6146187-sd_506_960_25fps.mp4",
-    poster: "/images/product-5.png",
+    image: "/images/product-5.png",
     href: "/products/tara-stripe-cotton-coord-set",
   },
 ];
@@ -54,6 +48,27 @@ const looks: Look[] = [
 export default function ShopTheLook() {
   const [active, setActive] = useState(0);
   const total = looks.length;
+  
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current - touchEndX.current > 50) {
+      next();
+    }
+    if (touchStartX.current - touchEndX.current < -50) {
+      prev();
+    }
+  };
 
   const next = useCallback(() => {
     setActive((prev) => (prev + 1) % total);
@@ -62,6 +77,11 @@ export default function ShopTheLook() {
   const prev = useCallback(() => {
     setActive((prev) => (prev - 1 + total) % total);
   }, [total]);
+
+  useEffect(() => {
+    const timer = setInterval(next, 4000);
+    return () => clearInterval(timer);
+  }, [next]);
 
   /* Calculate position of each card relative to active */
   function getOffset(index: number): number {
@@ -128,6 +148,7 @@ export default function ShopTheLook() {
           text-decoration: none;
           display: block;
           background: #000;
+          transform: translateX(calc(var(--offset, 0) * 250px)) scale(var(--scale, 1)) rotateY(calc(var(--offset, 0) * -12deg));
         }
 
         .stl-card.is-active {
@@ -146,6 +167,12 @@ export default function ShopTheLook() {
         }
 
         /* ── Card Video / Image ── */
+        @keyframes slowPan {
+          0% { transform: scale(1) translate(0, 0); }
+          50% { transform: scale(1.05) translate(-1%, 1%); }
+          100% { transform: scale(1) translate(0, 0); }
+        }
+
         .stl-card-media {
           position: absolute;
           inset: 0;
@@ -153,6 +180,10 @@ export default function ShopTheLook() {
           height: 100%;
           object-fit: cover;
           transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .stl-card.is-active .stl-card-media {
+          animation: slowPan 25s infinite ease-in-out;
         }
 
         .stl-card.is-active:hover .stl-card-media {
@@ -275,6 +306,7 @@ export default function ShopTheLook() {
           .stl-card {
             width: clamp(240px, 60vw, 300px);
             height: clamp(360px, 75vw, 460px);
+            transform: translateX(calc(var(--offset, 0) * 180px)) scale(var(--scale, 1)) rotateY(calc(var(--offset, 0) * -12deg));
           }
           .stl-nav {
             width: 42px;
@@ -297,7 +329,12 @@ export default function ShopTheLook() {
         </motion.div>
 
         {/* 3D Carousel */}
-        <div className="stl-carousel">
+        <div 
+          className="stl-carousel"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           {looks.map((look, i) => {
             const offset = getOffset(i);
             const isActive = offset === 0;
@@ -305,9 +342,7 @@ export default function ShopTheLook() {
 
             if (absOffset > 2) return null;
 
-            const translateX = offset * (typeof window !== "undefined" && window.innerWidth < 768 ? 180 : 250);
             const scale = isActive ? 1 : absOffset === 1 ? 0.75 : 0.55;
-            const rotateY = offset * -12;
             const zIndex = 5 - absOffset;
             const opacity = absOffset > 2 ? 0 : 1;
 
@@ -316,35 +351,24 @@ export default function ShopTheLook() {
                 key={look.id}
                 className={`stl-card ${isActive ? "is-active" : ""}`}
                 style={{
-                  transform: `translateX(${translateX}px) scale(${scale}) rotateY(${rotateY}deg)`,
+                  "--offset": offset,
+                  "--scale": scale,
                   zIndex,
                   opacity,
-                }}
+                } as React.CSSProperties}
                 onClick={() => {
                   if (!isActive) setActive(i);
                 }}
               >
-                {/* Media: Video if active, Image poster if inactive for performance */}
-                {isActive ? (
-                  <video
-                    src={look.video}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="stl-card-media"
-                    poster={look.poster}
-                  />
-                ) : (
-                  <Image
-                    src={look.poster}
-                    alt={look.title}
-                    fill
-                    sizes="(max-width: 768px) 60vw, 380px"
-                    style={{ objectFit: "cover", objectPosition: "center 15%" }}
-                    className="stl-card-media"
-                  />
-                )}
+                {/* Media: Image with Ken Burns animation if active for video-like feel */}
+                <Image
+                  src={look.image}
+                  alt={look.title}
+                  fill
+                  sizes="(max-width: 768px) 60vw, 380px"
+                  style={{ objectFit: "cover", objectPosition: "center 15%" }}
+                  className="stl-card-media"
+                />
 
                 {/* Bottom overlay — only on active card */}
                 {isActive && (
