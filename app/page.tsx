@@ -5,6 +5,7 @@ import PosterBanner from "./components/PosterBanner";
 import ProductCarousel from "./components/ProductCarousel";
 import ShopTheLook from "./components/ShopTheLook";
 import EditorialBanner from "./components/EditorialBanner";
+import SaleBanner from "./components/SaleBanner";
 import CustomerReviews from "./components/CustomerReviews";
 import InstagramGallery from "./components/InstagramGallery";
 import FAQ from "./components/FAQ";
@@ -27,6 +28,7 @@ export default function Home() {
           products={featuredProducts}
           viewAllHref="/collections"
         />
+        <SaleBanner />
         <ShopTheLook />
         <ProductCarousel
           label="Everyday ease"

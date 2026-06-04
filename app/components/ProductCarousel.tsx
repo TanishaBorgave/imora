@@ -168,11 +168,11 @@ export default function ProductCarousel({
 
         .pcard-name {
           font-family: var(--font-serif);
-          font-size: 0.95rem;
+          font-size: 1.05rem;
           font-weight: 400;
           color: var(--color-brown);
-          line-height: 1.4;
-          margin-bottom: 6px;
+          line-height: 1.45;
+          margin-bottom: 8px;
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
@@ -194,32 +194,32 @@ export default function ProductCarousel({
 
         .pcard-price {
           font-family: var(--font-sans);
-          font-size: 0.88rem;
+          font-size: 1rem;
           font-weight: 600;
           color: var(--color-brown);
         }
 
         .pcard-original {
           font-family: var(--font-sans);
-          font-size: 0.75rem;
+          font-size: 0.85rem;
           color: #9A8A7A;
           text-decoration: line-through;
         }
 
         .pcard-discount {
           font-family: var(--font-sans);
-          font-size: 0.62rem;
+          font-size: 0.75rem;
           font-weight: 600;
           color: #6B8F5E;
         }
 
         .pcard-fabric {
-          margin-top: 5px;
+          margin-top: 6px;
           font-family: var(--font-body);
-          font-size: 0.68rem;
+          font-size: 0.78rem;
           color: var(--color-brown-light);
-          letter-spacing: 0.05em;
-          opacity: 0.7;
+          letter-spacing: 0.06em;
+          opacity: 0.75;
           text-transform: uppercase;
         }
 
