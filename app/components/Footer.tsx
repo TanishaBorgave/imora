@@ -24,7 +24,17 @@ export default function Footer() {
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-start", gap: 40, marginBottom: 48 }}>
           {/* Brand */}
           <div>
-            <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "1.5rem", fontWeight: 400, letterSpacing: "0.18em", marginBottom: 12, color: "#FFFFFF" }}>IMORA</h2>
+            <img 
+              src="/images/logo-white-transparent.png" 
+              alt="Imora" 
+              style={{ 
+                width: 111, 
+                height: 31, 
+                objectFit: "contain", 
+                marginBottom: 12,
+                display: "block",
+              }} 
+            />
             <p style={{ fontFamily: "var(--font-body)", fontSize: "0.82rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 280 }}>
               Soft silhouettes for everyday stories.
               <br />Rooted in comfort, styled with soul.
