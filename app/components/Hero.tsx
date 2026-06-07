@@ -6,9 +6,9 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
 const slides = [
-  { image: "/images/hero.png" },
-  { image: "/images/product-2.png" },
-  { image: "/images/product-4.png" },
+  { image: "/images/hero-new1.png" },
+  { image: "/images/hero-new2.png" },
+  { image: "/images/hero-new3.png" },
 ];
 
 export default function Hero() {
@@ -101,10 +101,25 @@ export default function Hero() {
               fill
               priority
               sizes="100vw"
-              style={{ objectFit: "cover", objectPosition: "center 20%" }}
+              style={{ objectFit: "cover", objectPosition: "left 10%" }}
             />
           </motion.div>
         </AnimatePresence>
+
+        {/* Top gradient overlay for transparent header visibility */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: "140px",
+            background:
+              "linear-gradient(to bottom, rgba(13,13,13,0.5) 0%, rgba(13,13,13,0.25) 60%, transparent 100%)",
+            zIndex: 2,
+            pointerEvents: "none",
+          }}
+        />
 
         {/* Gradient overlay */}
         <div
@@ -141,8 +156,8 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             style={{
               height: 1,
-              background: "var(--color-terracotta)",
-              opacity: 0.6,
+              background: "#FFFFFF",
+              opacity: 0.8,
               marginBottom: 20,
               marginLeft: "auto",
             }}
@@ -158,7 +173,7 @@ export default function Hero() {
               fontWeight: 500,
               letterSpacing: "0.35em",
               textTransform: "uppercase",
-              color: "var(--color-terracotta)",
+              color: "#FFFFFF",
               marginBottom: 14,
             }}
           >
@@ -190,7 +205,7 @@ export default function Hero() {
               fontSize: "0.85rem",
               fontWeight: 300,
               lineHeight: 1.6,
-              color: "rgba(255,255,255,0.65)",
+              color: "#FFFFFF",
               marginBottom: 28,
             }}
           >

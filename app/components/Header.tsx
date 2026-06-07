@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCart } from "../context/CartContext";
+import CartDrawer from "./CartDrawer";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -14,6 +16,7 @@ const navLinks = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { itemCount, setCartOpen } = useCart();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -68,6 +71,8 @@ export default function Header() {
                 height: 31,
                 objectFit: "contain",
                 display: "block",
+                filter: scrolled ? "none" : "brightness(0) invert(1)",
+                transition: "filter 0.4s ease",
               }}
             />
           </Link>
@@ -88,12 +93,13 @@ export default function Header() {
                 style={{
                   fontFamily: "var(--font-sans)",
                   fontSize: "0.8rem",
-                  fontWeight: 400,
+                  fontWeight: 500,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
-                  color: "var(--color-brown)",
-                  transition: "color 0.3s ease",
+                  color: scrolled ? "var(--color-brown)" : "#ffffff",
+                  transition: "color 0.4s ease",
                   position: "relative",
+                  textShadow: scrolled ? "none" : "0 1px 3px rgba(0,0,0,0.3)",
                 }}
                 className="nav-link"
               >
@@ -107,7 +113,7 @@ export default function Header() {
             {/* Search */}
             <button
               aria-label="Search"
-              style={{ color: "var(--color-brown)", padding: 4 }}
+              style={{ color: scrolled ? "var(--color-brown)" : "#ffffff", padding: 4, transition: "color 0.4s ease", filter: scrolled ? "none" : "drop-shadow(0 1px 2px rgba(0,0,0,0.3))" }}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8" />
@@ -118,7 +124,7 @@ export default function Header() {
             {/* User */}
             <button
               aria-label="Account"
-              style={{ color: "var(--color-brown)", padding: 4 }}
+              style={{ color: scrolled ? "var(--color-brown)" : "#ffffff", padding: 4, transition: "color 0.4s ease", filter: scrolled ? "none" : "drop-shadow(0 1px 2px rgba(0,0,0,0.3))" }}
               className="hidden sm:block"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -130,7 +136,8 @@ export default function Header() {
             {/* Cart */}
             <button
               aria-label="Cart"
-              style={{ color: "var(--color-brown)", padding: 4, position: "relative" }}
+              onClick={() => setCartOpen(true)}
+              style={{ color: scrolled ? "var(--color-brown)" : "#ffffff", padding: 4, position: "relative", transition: "color 0.4s ease", filter: scrolled ? "none" : "drop-shadow(0 1px 2px rgba(0,0,0,0.3))" }}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
@@ -155,7 +162,7 @@ export default function Header() {
                   fontFamily: "var(--font-sans)",
                 }}
               >
-                0
+                {itemCount}
               </span>
             </button>
 
@@ -164,7 +171,7 @@ export default function Header() {
               aria-label="Menu"
               onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden"
-              style={{ color: "var(--color-brown)", padding: 4 }}
+              style={{ color: scrolled ? "var(--color-brown)" : "#ffffff", padding: 4, transition: "color 0.4s ease" }}
             >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
                 {mobileOpen ? (
@@ -287,6 +294,7 @@ export default function Header() {
           </motion.nav>
         )}
       </AnimatePresence>
+      <CartDrawer />
     </>
   );
 }
