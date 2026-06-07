@@ -1,18 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { allProducts } from "../../data/products";
 import { useParams } from "next/navigation";
+import { useCart } from "../../context/CartContext";
+import { getProductBySlug } from "../../lib/shopify-products";
 
 export default function ProductPage() {
   const params = useParams();
   const slug = params.slug as string;
-  const product = allProducts.find((p) => p.slug === slug);
+  const initialProduct = allProducts.find((p) => p.slug === slug);
+
+  const [product, setProduct] = useState<any>(initialProduct);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [isAdding, setIsAdding] = useState(false);
+  const [isBuying, setIsBuying] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [demoMode, setDemoMode] = useState(false);
+
+  const { addToCart } = useCart();
+
+  useEffect(() => {
+    async function loadShopifyProduct() {
+      if (!slug) return;
+      try {
+        const shopifyProd = await getProductBySlug(slug);
+        if (shopifyProd) {
+          setProduct(shopifyProd);
+          setDemoMode(false);
+        } else {
+          // Product handle not found in Shopify, enable demo fallback
+          setDemoMode(true);
+        }
+      } catch (err) {
+        console.error("Failed to load product from Shopify:", err);
+        setDemoMode(true);
+      }
+    }
+    loadShopifyProduct();
+  }, [slug]);
 
   if (!product) {
     return (
@@ -28,6 +58,78 @@ export default function ProductPage() {
   }
 
   const relatedProducts = allProducts.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
+
+  const getSelectedVariantId = () => {
+    if (!product) return null;
+    if (!product.variants || product.variants.length === 0) {
+      return product.variantId || null;
+    }
+    if (product.variants.length === 1 && product.variants[0].title.toLowerCase() === "default title") {
+      return product.variants[0].id;
+    }
+    if (!selectedSize) return null;
+    const match = product.variants.find(
+      (v: any) => v.title.toLowerCase() === selectedSize.toLowerCase()
+    );
+    return match ? match.id : product.variants[0].id;
+  };
+
+  const handleAddToCart = async () => {
+    if (product.sizes && product.sizes.length > 0 && !selectedSize) {
+      setError("Please select a size first.");
+      return;
+    }
+    setError(null);
+    setIsAdding(true);
+
+    try {
+      let variantId = getSelectedVariantId();
+      if (!variantId || demoMode) {
+        alert(
+          `Demo Mode: The product "${product.name}" (handle: "${slug}") is not in your Shopify store. We'll add a test snowboard product to your cart so you can test the cart and checkout pages!`
+        );
+        variantId = "gid://shopify/ProductVariant/49081459540196"; // Fallback test snowboard
+      }
+
+      await addToCart(variantId);
+    } catch (err) {
+      console.error("Error adding to cart:", err);
+      setError("Failed to add product to cart. Please try again.");
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
+  const handleBuyNow = async () => {
+    if (product.sizes && product.sizes.length > 0 && !selectedSize) {
+      setError("Please select a size first.");
+      return;
+    }
+    setError(null);
+    setIsBuying(true);
+
+    try {
+      let variantId = getSelectedVariantId();
+      if (!variantId || demoMode) {
+        alert(
+          `Demo Mode: The product "${product.name}" (handle: "${slug}") is not in your Shopify store. We'll add a test snowboard product to your cart and take you directly to checkout!`
+        );
+        variantId = "gid://shopify/ProductVariant/49081459540196"; // Fallback test snowboard
+      }
+
+      const checkoutUrl = await addToCart(variantId);
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
+      } else {
+        setError("Failed to generate checkout link. Please try again.");
+      }
+    } catch (err) {
+      console.error("Error buying now:", err);
+      setError("Failed to proceed to checkout. Please try again.");
+    } finally {
+      setIsBuying(false);
+    }
+  };
 
   return (
     <>
@@ -85,10 +187,13 @@ export default function ProductPage() {
               <div style={{ marginBottom: 32 }}>
                 <p style={{ fontFamily: "var(--font-sans)", fontSize: "0.7rem", fontWeight: 500, letterSpacing: "0.15em", textTransform: "uppercase", color: "#9A8A7A", marginBottom: 10 }}>Size</p>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  {product.sizes.map((size) => (
+                  {product.sizes.map((size: string) => (
                     <button
                       key={size}
-                      onClick={() => setSelectedSize(size)}
+                      onClick={() => {
+                        setSelectedSize(size);
+                        setError(null);
+                      }}
                       style={{
                         padding: "10px 20px",
                         border: selectedSize === size ? "2px solid #3B2F2F" : "1px solid #E0D6CC",
@@ -110,13 +215,46 @@ export default function ProductPage() {
               </div>
             )}
 
+            {/* Demo Mode Notice */}
+            {demoMode && (
+              <div style={{
+                color: "#b45309",
+                fontSize: "0.75rem",
+                fontFamily: "var(--font-sans)",
+                margin: "0 0 16px 0",
+                background: "rgba(251, 191, 36, 0.1)",
+                padding: "10px 14px",
+                borderRadius: 4,
+                border: "1px solid rgba(251, 191, 36, 0.3)",
+                lineHeight: 1.4,
+                maxWidth: 400
+              }}>
+                <strong>Demo Mode:</strong> This product is not in your Shopify store yet. Adding it to cart will use a test product variant.
+              </div>
+            )}
+
+            {/* Error Message */}
+            {error && (
+              <p style={{
+                color: "#c2410c",
+                fontSize: "0.82rem",
+                fontFamily: "var(--font-sans)",
+                margin: "0 0 12px 0",
+                fontWeight: 500
+              }}>
+                {error}
+              </p>
+            )}
+
             {/* Add to Cart */}
             <button
+              onClick={handleAddToCart}
+              disabled={isAdding}
               style={{
                 width: "100%",
                 maxWidth: 400,
                 padding: "16px 32px",
-                background: "#3B2F2F",
+                background: isAdding ? "#5C4A4A" : "#3B2F2F",
                 color: "#F8F3EE",
                 fontFamily: "var(--font-sans)",
                 fontSize: "0.78rem",
@@ -125,18 +263,20 @@ export default function ProductPage() {
                 textTransform: "uppercase",
                 border: "none",
                 borderRadius: 2,
-                cursor: "pointer",
+                cursor: isAdding ? "not-allowed" : "pointer",
                 transition: "background 0.3s",
                 marginBottom: 16,
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = "#5C4A4A"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = "#3B2F2F"; }}
+              onMouseEnter={(e) => { if (!isAdding) e.currentTarget.style.background = "#5C4A4A"; }}
+              onMouseLeave={(e) => { if (!isAdding) e.currentTarget.style.background = "#3B2F2F"; }}
             >
-              Add to Cart
+              {isAdding ? "Adding..." : "Add to Cart"}
             </button>
 
             {/* Buy Now */}
             <button
+              onClick={handleBuyNow}
+              disabled={isBuying}
               style={{
                 width: "100%",
                 maxWidth: 400,
@@ -150,13 +290,13 @@ export default function ProductPage() {
                 textTransform: "uppercase",
                 border: "1px solid #3B2F2F",
                 borderRadius: 2,
-                cursor: "pointer",
+                cursor: isBuying ? "not-allowed" : "pointer",
                 transition: "all 0.3s",
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = "#3B2F2F"; e.currentTarget.style.color = "#F8F3EE"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#3B2F2F"; }}
+              onMouseEnter={(e) => { if (!isBuying) { e.currentTarget.style.background = "#3B2F2F"; e.currentTarget.style.color = "#F8F3EE"; } }}
+              onMouseLeave={(e) => { if (!isBuying) { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#3B2F2F"; } }}
             >
-              Buy Now
+              {isBuying ? "Processing..." : "Buy Now"}
             </button>
           </div>
         </section>
