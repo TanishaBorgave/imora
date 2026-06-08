@@ -140,7 +140,7 @@ export default function ShopTheLook() {
           position: absolute;
           width: clamp(260px, 30vw, 380px);
           height: clamp(400px, 50vw, 600px);
-          border-radius: 0;
+          border-radius: 10px;
           overflow: hidden;
           cursor: pointer;
           transition: all 0.7s cubic-bezier(0.4, 0.0, 0.2, 1);

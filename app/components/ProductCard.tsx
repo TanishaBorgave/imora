@@ -11,17 +11,16 @@ export default function ProductCard({ product }: ProductCardProps) {
     <Link
       href={`/products/${product.slug}`}
       className="hover-zoom"
-      style={{ display: "block", textDecoration: "none", flexShrink: 0}}
+      style={{ display: "block", textDecoration: "none", flexShrink: 0, borderRadius: 5, overflow: "hidden", background: "#fff" }}
     >
       <div
         style={{
           position: "relative",
           aspectRatio: "3 / 4",
-          borderRadius:4,
+          borderRadius: 5,
           overflow: "hidden",
           background: "#EDE5DA",
-          marginBottom: 14,
-          
+          marginBottom: 14          
         }}
       >
         <Image
@@ -32,7 +31,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           style={{ objectFit: "cover"}}
         />
         {product.badge && (
-          <span className="badge-sale" style={{ position: "absolute", top: 12, left: 12 }}>
+          <span className="badge-sale" style={{ position: "absolute", top: 12, left: 12}}>
             {product.badge}
           </span>
         )}

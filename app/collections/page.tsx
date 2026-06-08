@@ -31,7 +31,7 @@ export default function CollectionsPage() {
         <section style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 80px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }} className="md:!grid-cols-3">
             {categories.map((cat) => (
-              <Link key={cat.slug} href={`/collections/${cat.slug}`} className="hover-zoom" style={{ display: "block", position: "relative", borderRadius: 4, overflow: "hidden", aspectRatio: "3 / 4", background: "#EDE5DA" }}>
+              <Link key={cat.slug} href={`/collections/${cat.slug}`} className="hover-zoom" style={{ display: "block", position: "relative", borderRadius: 32, overflow: "hidden", aspectRatio: "3 / 4", background: "#EDE5DA" }}>
                 <Image src={cat.image} alt={cat.name} fill sizes="(max-width: 768px) 50vw, 33vw" style={{ objectFit: "cover" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(59,47,47,0.55) 0%, rgba(59,47,47,0.05) 60%)" }} />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "24px 20px" }}>
