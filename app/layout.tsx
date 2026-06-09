@@ -16,9 +16,9 @@ export const metadata: Metadata = {
     "slow fashion",
   ],
   icons: {
-    icon: "/favicon.png?v=9",
-    shortcut: "/favicon.png?v=9",
-    apple: "/favicon.png?v=9",
+    icon: "/favicon.png?v=10",
+    shortcut: "/favicon.png?v=10",
+    apple: "/favicon.png?v=10",
   },
   openGraph: {
     title: "Imora — Rooted in Comfort, Styled with Soul",
