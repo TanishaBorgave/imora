@@ -3,8 +3,10 @@ import Link from "next/link";
 const footerLinks = [
   { label: "Privacy Policy", href: "/policies/privacy" },
   { label: "Refund Policy", href: "/policies/refund" },
+  { label: "Return Policy", href: "/policies/return" },
   { label: "Terms of Service", href: "/policies/terms" },
   { label: "Shipping Policy", href: "/policies/shipping" },
+  { label: "Disclaimer", href: "/policies/disclaimer" },
 ];
 
 const socialLinks = [

@@ -95,6 +95,7 @@ export default function CustomerReviews() {
           display: flex;
           flex-direction: column;
           gap: 16px;
+          border-radius:15px;
           transition: all 0.3s ease;
         }
         .review-card:hover {
