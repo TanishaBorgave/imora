@@ -189,3 +189,58 @@ button {
 @media (max-width: 767px) {
   .md\:hidden { display: initial; }
 }
+
+/* ── Policy pages styling ── */
+.policy-card {
+  padding: 28px 20px;
+}
+@media (min-width: 768px) {
+  .policy-card {
+    padding: 56px 48px;
+  }
+}
+
+.policy-content h2 {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 32px;
+  margin-bottom: 16px;
+  color: var(--color-brown);
+  border-left: 3px solid var(--color-terracotta);
+  padding-left: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+@media (min-width: 768px) {
+  .policy-content h2 {
+    font-size: 1.25rem;
+  }
+}
+
+.policy-content section {
+  margin-bottom: 32px;
+}
+
+.policy-content section:first-of-type h2,
+.policy-content h2:first-of-type {
+  margin-top: 0;
+}
+
+.policy-content p {
+  margin-bottom: 16px;
+}
+
+.policy-content ul, .policy-content ol {
+  margin-left: 20px;
+  margin-bottom: 24px;
+}
+
+.policy-content li {
+  margin-bottom: 10px;
+}
+
+.policy-content li strong {
+  color: var(--color-brown);
+}
+

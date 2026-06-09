@@ -13,7 +13,7 @@ export default function PosterBanner() {
         width: "100%",
         overflow: "hidden",
         margin: "16px 0",
-        borderRadius: 12,
+        borderRadius: 0,
       }}
     >
       <div

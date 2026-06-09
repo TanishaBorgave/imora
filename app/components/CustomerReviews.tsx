@@ -64,39 +64,67 @@ export default function CustomerReviews() {
     <>
       <style>{`
         .reviews-section {
-          padding: 80px 0;
+          max-width: 1400px;
+          margin: 48px 16px;
+          padding: 56px 0;
           background: #F8F3EE;
           overflow: hidden;
+          border-radius: 24px;
+        }
+        @media (min-width: 1200px) {
+          .reviews-section {
+            margin: 80px auto;
+            padding: 80px 0;
+            border-radius: 32px;
+          }
         }
         .reviews-header {
-          padding: 0 48px;
-          margin-bottom: 48px;
+          padding: 0 24px;
+          margin-bottom: 36px;
           display: flex;
           align-items: flex-end;
           justify-content: space-between;
         }
+        @media (min-width: 768px) {
+          .reviews-header {
+            padding: 0 48px;
+            margin-bottom: 48px;
+          }
+        }
         .reviews-scroll {
           display: flex;
-          gap: 24px;
+          gap: 16px;
           overflow-x: auto;
           scroll-snap-type: x mandatory;
-          padding: 0 48px 16px;
+          padding: 0 24px 16px;
           -ms-overflow-style: none;
           scrollbar-width: none;
+        }
+        @media (min-width: 768px) {
+          .reviews-scroll {
+            gap: 24px;
+            padding: 0 48px 16px;
+          }
         }
         .reviews-scroll::-webkit-scrollbar { display: none; }
         .review-card {
           flex-shrink: 0;
-          width: 340px;
+          width: 290px;
           scroll-snap-align: start;
           background: #FFFFFF;
           border: 1px solid rgba(59,47,47,0.08);
-          padding: 32px 28px;
+          padding: 24px 20px;
           display: flex;
           flex-direction: column;
           gap: 16px;
-          border-radius:15px;
+          border-radius: 15px;
           transition: all 0.3s ease;
+        }
+        @media (min-width: 768px) {
+          .review-card {
+            width: 340px;
+            padding: 32px 28px;
+          }
         }
         .review-card:hover {
           border-color: rgba(59,47,47,0.18);
@@ -119,12 +147,6 @@ export default function CustomerReviews() {
           background: #3B2F2F;
           color: #F8F3EE;
           border-color: #3B2F2F;
-        }
-        @media (max-width: 768px) {
-          .reviews-section { padding: 56px 0; }
-          .reviews-header { padding: 0 24px; margin-bottom: 36px; }
-          .reviews-scroll { padding: 0 24px 16px; gap: 16px; }
-          .review-card { width: 290px; padding: 24px 20px; }
         }
       `}</style>
 

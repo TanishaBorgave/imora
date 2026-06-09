@@ -25,7 +25,7 @@ export default function CategoryGrid() {
         .cat-scroll {
           display: flex;
           gap: 24px;
-
+          margin-left:0.7rem;
           overflow-x: auto;
           overflow-y: hidden;
 
