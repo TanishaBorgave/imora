@@ -15,6 +15,11 @@ export const metadata: Metadata = {
     "women's fashion India",
     "slow fashion",
   ],
+  icons: {
+    icon: "/favicon.png?v=3",
+    shortcut: "/favicon.png?v=3",
+    apple: "/favicon.png?v=3",
+  },
   openGraph: {
     title: "Imora — Rooted in Comfort, Styled with Soul",
     description:
