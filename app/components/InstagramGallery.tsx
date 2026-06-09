@@ -25,7 +25,7 @@ export default function InstagramGallery() {
           </h2>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 4 }} className="md:!grid-cols-6">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }} className="md:!grid-cols-6">
           {images.map((img, i) => (
             <motion.div
               key={i}
@@ -34,7 +34,7 @@ export default function InstagramGallery() {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.05 }}
               className="hover-zoom"
-              style={{ position: "relative", aspectRatio: "1", borderRadius: 2, overflow: "hidden", cursor: "pointer" }}
+              style={{ position: "relative", aspectRatio: "1", borderRadius: 10, overflow: "hidden", cursor: "pointer"}}
             >
               <Image src={img.src} alt={img.alt} fill style={{ objectFit: "cover" }} sizes="(max-width: 768px) 33vw, 16vw" />
               <div style={{ position: "absolute", inset: 0, background: "rgba(59,47,47,0)", transition: "background 0.3s" }}

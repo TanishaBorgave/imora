@@ -37,22 +37,25 @@ export default function ProductCarousel({
       <style>{`
         /* ── Premium product card ── */
         .pcard {
+       
           display: block;
           text-decoration: none;
           position: relative;
           transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           will-change: transform;
+          
         }
 
         .pcard:hover {
-          transform: translateY(-8px) scale(1.015);
+          transform: scale(1.015);
         }
 
         /* Image frame — sharp geometric */
         .pcard-frame {
           position: relative;
           aspect-ratio: 3 / 4.2;
-          border-radius: 0;
+          border-radius: 20px;
+          border: 2px solid rgba(196, 139, 92, 1);
           overflow: hidden;
           background: #EDE5DA;
           margin-bottom: 16px;

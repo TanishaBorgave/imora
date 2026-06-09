@@ -15,40 +15,76 @@ export default function CategoryGrid() {
           overflow: hidden;
         }
 
+        /* OUTER WRAPPER */
+        .cat-container {
+          width: min(97vw, 1650px);
+          margin: 0 auto;
+        }
+
+        /* SCROLL TRACK */
         .cat-scroll {
           display: flex;
-          justify-content: flex-start;
           gap: 24px;
-          padding: 0 32px;
+          margin-left:0.7rem;
           overflow-x: auto;
-          -ms-overflow-style: none;
+          overflow-y: hidden;
+
+          padding-left: 8px;
+          padding-right: 120px;
+          padding-bottom: 10px;
+
           scrollbar-width: none;
+          -ms-overflow-style: none;
+
+          mask-image: linear-gradient(
+            to right,
+            black 0%,
+            black 93%,
+            transparent 100%
+          );
+
+          -webkit-mask-image: linear-gradient(
+            to right,
+            black 0%,
+            black 93%,
+            transparent 100%
+          );
         }
-        .cat-scroll::-webkit-scrollbar { display: none; }
+
+        .cat-scroll::-webkit-scrollbar {
+          display: none;
+        }
+
+        /* Extra space after last card */
+        .cat-scroll::after {
+          content: "";
+          flex: 0 0 80px;
+        }
 
         .cat-card-wrapper {
           flex-shrink: 0;
-          scroll-snap-align: center;
         }
 
-        /* ── Arch card ── */
+        /* ARCH CARD */
         .arch-card {
           position: relative;
-          width: clamp(260px, 28vw, 380px);
+          width: clamp(250px, 16vw, 300px);
           aspect-ratio: 3 / 4;
+
           border-radius: 999px 999px 16px 16px;
           overflow: hidden;
-          text-decoration: none;
+
           display: block;
+          text-decoration: none;
           cursor: pointer;
         }
 
-        /* Golden border — outer glow layer */
         .arch-border {
           position: absolute;
           inset: 0;
           border-radius: 999px 999px 16px 16px;
           padding: 4px;
+
           background: linear-gradient(
             160deg,
             rgba(217, 162, 115, 0.9) 0%,
@@ -56,25 +92,31 @@ export default function CategoryGrid() {
             rgba(217, 162, 115, 0.95) 60%,
             rgba(196, 139, 92, 0.8) 100%
           );
+
           -webkit-mask:
             linear-gradient(#fff 0 0) content-box,
             linear-gradient(#fff 0 0);
+
           -webkit-mask-composite: xor;
           mask-composite: exclude;
+
           pointer-events: none;
           z-index: 2;
+
           transition: all 0.4s ease;
         }
 
-        /* Subtle outer glow */
         .arch-card::before {
-          content: '';
+          content: "";
           position: absolute;
           inset: -3px;
+
           border-radius: 999px 999px 18px 18px;
           border: 1.5px solid rgba(217, 162, 115, 0.3);
+
           pointer-events: none;
           z-index: 1;
+
           transition: border-color 0.4s ease;
         }
 
@@ -91,94 +133,109 @@ export default function CategoryGrid() {
           );
         }
 
-        /* Image container */
         .arch-img {
           position: absolute;
           inset: 4px;
+
           border-radius: 995px 995px 12px 12px;
           overflow: hidden;
+
           z-index: 0;
+        }
+
+        .arch-img img {
+          transition: transform 0.7s cubic-bezier(
+            0.25,
+            0.46,
+            0.45,
+            0.94
+          ) !important;
         }
 
         .arch-card:hover .arch-img img {
           transform: scale(1.05);
         }
 
-        .arch-img img {
-          transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-        }
-
-        /* Bottom gradient for text */
         .arch-gradient {
           position: absolute;
-          bottom: 0;
           left: 0;
           right: 0;
+          bottom: 0;
+
           height: 55%;
+
           background: linear-gradient(
             to top,
             rgba(30, 20, 15, 0.65) 0%,
             rgba(30, 20, 15, 0.3) 40%,
             transparent 100%
           );
+
           z-index: 1;
-          border-radius: 0 0 12px 12px;
           pointer-events: none;
+
+          border-radius: 0 0 12px 12px;
         }
 
-        /* Text overlay */
         .arch-text {
           position: absolute;
-          bottom: 32px;
           left: 0;
           right: 0;
-          z-index: 3;
+          bottom: 32px;
+
           text-align: center;
           padding: 0 20px;
+
+          z-index: 3;
         }
 
         .arch-title {
           font-family: var(--font-serif);
-          font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+          font-size: clamp(1.2rem, 2vw, 1.7rem);
           font-weight: 500;
-          color: #FFFFFF;
+
+          color: #fff;
+
           text-transform: uppercase;
           letter-spacing: 0.08em;
           line-height: 1.3;
+
           text-shadow: 0 2px 12px rgba(0,0,0,0.25);
         }
 
-        @media (min-width: 1800px) {
-          .cat-scroll {
-            justify-content: center;
-          }
-        }
-
+        /* TABLET */
         @media (max-width: 1024px) {
           .cat-scroll {
-            justify-content: flex-start;
             gap: 18px;
-            padding: 0 20px;
+            padding-right: 80px;
           }
+
           .arch-card {
-            width: clamp(220px, 45vw, 320px);
+            width: clamp(220px, 42vw, 320px);
           }
         }
 
+        /* MOBILE */
         @media (max-width: 640px) {
           .cat-scroll {
+            gap: 20px;
+
             scroll-snap-type: x mandatory;
-            scroll-padding: 0 24px;
-            padding: 0 24px;
-            gap: 16px;
-            justify-content: flex-start;
+
+            padding-left: 12px;
+            padding-right: 32px;
           }
+
           .cat-card-wrapper {
-            width: calc(100vw - 48px);
+            scroll-snap-align: start;
+            width: calc(100vw - 56px);
           }
+
           .arch-card {
-            width: 100% !important;
+          padding-left: 20px;
+            width: 100%;
           }
+
           .arch-text {
             bottom: 24px;
           }
@@ -186,7 +243,6 @@ export default function CategoryGrid() {
       `}</style>
 
       <section id="shop-by-category" className="cat-section">
-        {/* Section label */}
         <motion.p
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -195,7 +251,7 @@ export default function CategoryGrid() {
           style={{
             textAlign: "center",
             fontFamily: "var(--font-sans)",
-            fontSize: "0.58rem",
+            fontSize: "1rem",
             fontWeight: 500,
             letterSpacing: "0.3em",
             textTransform: "uppercase",
@@ -206,44 +262,49 @@ export default function CategoryGrid() {
           Shop by Category
         </motion.p>
 
-        {/* Arch cards row */}
-        <div className="cat-scroll">
-          {categories.map((cat, i) => (
-            <motion.div
-              key={cat.slug}
-              className="cat-card-wrapper"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: i * 0.1 }}
-            >
-              <Link href={`/collections/${cat.slug}`} className="arch-card">
-                {/* Golden border */}
-                <div className="arch-border" />
+        <div className="cat-container">
+          <div className="cat-scroll">
+            {categories.map((cat, i) => (
+              <motion.div
+                key={cat.slug}
+                className="cat-card-wrapper"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.55, delay: i * 0.1 }}
+              >
+                <Link
+                  href={`/collections/${cat.slug}`}
+                  className="arch-card"
+                >
+                  <div className="arch-border" />
 
-                {/* Image */}
-                <div className="arch-img">
-                  <Image
-                    src={cat.image}
-                    alt={cat.name}
-                    fill
-                    sizes="(max-width: 640px) 72vw, (max-width: 1024px) 40vw, 380px"
-                    style={{ objectFit: "cover", objectPosition: "center 15%" }}
-                  />
-                </div>
+                  <div className="arch-img">
+                    <Image
+                      src={cat.image}
+                      alt={cat.name}
+                      fill
+                      sizes="(max-width: 640px) 72vw,
+                             (max-width: 1024px) 40vw,
+                             300px"
+                      style={{
+                        objectFit: "cover",
+                        objectPosition: "center 15%",
+                      }}
+                    />
+                  </div>
 
-                {/* Gradient overlay */}
-                <div className="arch-gradient" />
+                  <div className="arch-gradient" />
 
-                {/* Text */}
-                <div className="arch-text">
-                  <h3 className="arch-title">
-                    {cat.name}
-                  </h3>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+                  <div className="arch-text">
+                    <h3 className="arch-title">
+                      {cat.name}
+                    </h3>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
     </>

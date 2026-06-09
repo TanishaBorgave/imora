@@ -13,7 +13,7 @@ export default function PosterBanner() {
         width: "100%",
         overflow: "hidden",
         margin: "16px 0",
-        borderRadius: 12,
+        borderRadius: 0,
       }}
     >
       <div
@@ -60,7 +60,7 @@ export default function PosterBanner() {
             transition={{ duration: 0.6 }}
             style={{
               fontFamily: "var(--font-sans)",
-              fontSize: "0.6rem",
+              fontSize: "0.7rem",
               fontWeight: 500,
               letterSpacing: "0.35em",
               textTransform: "uppercase",
@@ -100,7 +100,7 @@ export default function PosterBanner() {
             style={{
               fontFamily: "var(--font-body)",
               fontSize: "clamp(0.75rem, 1.2vw, 0.88rem)",
-              color: "rgba(255,255,255,0.6)",
+              color: "rgba(255, 255, 255, 0.83)",
               maxWidth: 400,
               lineHeight: 1.7,
               marginBottom: 24,
@@ -110,10 +110,14 @@ export default function PosterBanner() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            //initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            //transition={{ duration: 0.5, delay: 0.3 }}
+
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
           >
             <Link
               href="/collections"
@@ -133,7 +137,7 @@ export default function PosterBanner() {
                 transition: "all 0.3s ease",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "rgba(255,255,255,0.12)";
+                e.currentTarget.style.background = "rgb(212, 191, 146)";
                 e.currentTarget.style.borderColor = "rgba(255,255,255,0.7)";
               }}
               onMouseLeave={(e) => {

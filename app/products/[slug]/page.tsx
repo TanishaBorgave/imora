@@ -166,7 +166,7 @@ export default function ProductPage() {
         {/* Product Detail */}
         <section style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 80px", display: "grid", gridTemplateColumns: "1fr", gap: 40 }} className="md:!grid-cols-2">
           {/* Image */}
-          <div style={{ position: "relative", aspectRatio: "3 / 4", borderRadius: 4, overflow: "hidden", background: "#EDE5DA" }}>
+          <div style={{ position: "relative", aspectRatio: "3 / 4", borderRadius: 32, overflow: "hidden", background: "#EDE5DA" }}>
             <Image src={product.image} alt={product.name} fill style={{ objectFit: "cover" }} priority />
             {product.badge && <span className="badge-sale" style={{ position: "absolute", top: 16, left: 16 }}>{product.badge}</span>}
           </div>
@@ -346,7 +346,7 @@ export default function ProductPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }} className="md:!grid-cols-4">
               {relatedProducts.map((p) => (
                 <div key={p.id}><Link href={`/products/${p.slug}`} className="hover-zoom" style={{ display: "block" }}>
-                  <div style={{ position: "relative", aspectRatio: "3 / 4", borderRadius: 4, overflow: "hidden", background: "#EDE5DA", marginBottom: 12 }}>
+                  <div style={{ position: "relative", aspectRatio: "3 / 4", borderRadius: 32, overflow: "hidden", background: "#EDE5DA", marginBottom: 12 }}>
                     <Image src={p.image} alt={p.name} fill sizes="25vw" style={{ objectFit: "cover" }} />
                   </div>
                   <h3 style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", color: "#3B2F2F", marginBottom: 4 }}>{p.name}</h3>
