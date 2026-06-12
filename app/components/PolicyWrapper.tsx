@@ -24,24 +24,17 @@ export default function PolicyWrapper({ title, children }: PolicyWrapperProps) {
           {/* Back Button */}
           <BackButton />
 
-          {/* Content Card */}
-          <div 
-            style={{ 
-              background: "var(--color-white)", 
-              borderRadius: "32px", 
-              border: "1px solid var(--color-divider)",
-              boxShadow: "0 8px 30px rgba(59, 47, 47, 0.03)"
-            }}
-            className="policy-card animate-fade-in-up"
-          >
+          {/* Core Content Wrapper */}
+          <div className="animate-fade-in-up" style={{ marginTop: "24px" }}>
             {/* Title */}
             <h1 
               style={{ 
                 fontFamily: "var(--font-serif)", 
-                fontSize: "clamp(2.2rem, 5vw, 3rem)", 
+                fontSize: "clamp(2.2rem, 5vw, 3.5rem)", 
                 color: "var(--color-brown)", 
-                marginBottom: "32px",
-                lineHeight: 1.15 
+                marginBottom: "48px",
+                lineHeight: 1.15,
+                textAlign: "center"
               }}
             >
               {title}
@@ -51,9 +44,9 @@ export default function PolicyWrapper({ title, children }: PolicyWrapperProps) {
             <div 
               style={{ 
                 fontFamily: "var(--font-body)", 
-                fontSize: "0.95rem", 
+                fontSize: "0.98rem", 
                 lineHeight: 1.8, 
-                color: "var(--color-brown-light)" 
+                color: "var(--color-brown)" 
               }}
               className="policy-content"
             >

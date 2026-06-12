@@ -54,8 +54,8 @@ export default function ProductCarousel({
         .pcard-frame {
           position: relative;
           aspect-ratio: 3 / 4.2;
-          border-radius: 20px;
-          border: 2px solid rgba(196, 139, 92, 1);
+          border-radius: 0;
+          border: none;
           overflow: hidden;
           background: #EDE5DA;
           margin-bottom: 16px;
