@@ -2,7 +2,7 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ProductCard from "../../components/ProductCard";
 import { categories } from "../../data/categories";
-import { getProductsByCategory, allProducts } from "../../data/products";
+import { getProductsByCategory, getAllProducts } from "../../lib/shopify-products";
 import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
@@ -24,9 +24,10 @@ export default async function CollectionPage({ params }: { params: Promise<{ slu
   const category = categories.find((c) => c.slug === slug);
   if (!category) notFound();
 
-  let products = getProductsByCategory(slug);
+  let products = await getProductsByCategory(slug);
   // If no products match the category exactly, show all products as placeholder
   if (products.length === 0) {
+    const allProducts = await getAllProducts();
     products = allProducts.slice(0, 6);
   }
 
