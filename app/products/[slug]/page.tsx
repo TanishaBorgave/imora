@@ -5,8 +5,9 @@ import Footer from "../../components/Footer";
 import { getProductBySlug, getAllProducts } from "../../lib/shopify-products";
 import ProductActions from "./ProductActions";
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
-  const product = await getProductBySlug(params.slug);
+export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     return (
@@ -91,7 +92,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
             )}
 
             {/* Client Component for Interactions */}
-            <ProductActions product={product} slug={params.slug} />
+            <ProductActions product={product} slug={slug} />
 
           </div>
         </section>
