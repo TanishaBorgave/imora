@@ -17,6 +17,7 @@ export interface Product {
   originalPrice?: number;
   image: string;
   hoverImage?: string;
+  allImages?: string[];
   badge?: string;
   category: string;
   fabric?: string;
@@ -57,6 +58,7 @@ function transformShopifyProduct(node: any): Product {
     originalPrice: compareAt && compareAt > price ? compareAt : undefined,
     image: node.images?.edges[0]?.node?.url || "/images/product-1.png",
     hoverImage: node.images?.edges[1]?.node?.url || undefined,
+    allImages: (node.images?.edges || []).map((edge: any) => edge.node.url),
     badge: compareAt && compareAt > price ? "Sale" : undefined,
     category: node.productType?.toLowerCase().replace(/\s+/g, "-") || "",
     fabric,

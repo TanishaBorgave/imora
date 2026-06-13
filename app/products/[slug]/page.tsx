@@ -35,29 +35,22 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <main style={{ paddingTop: 120, paddingBottom: 80 }}>
         <section style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "grid", gap: 40, marginBottom: 80 }} className="md:grid-cols-2 md:gap-16 items-start">
           
-          {/* Product Images */}
+          {/* Product Images - 2 column grid */}
           <div style={{ position: "sticky", top: 120 }}>
-            <div style={{ position: "relative", aspectRatio: "3 / 4", borderRadius: 4, overflow: "hidden", background: "#EDE5DA", marginBottom: 16 }}>
-              <Image 
-                src={product.image} 
-                alt={product.name} 
-                fill 
-                sizes="(max-width: 768px) 100vw, 50vw" 
-                style={{ objectFit: "cover" }} 
-                priority 
-              />
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8 }}>
+              {(product.allImages && product.allImages.length > 0 ? product.allImages : [product.image]).map((imgUrl: string, idx: number) => (
+                <div key={idx} style={{ position: "relative", aspectRatio: "3 / 4", borderRadius: 4, overflow: "hidden", background: "#EDE5DA" }}>
+                  <Image 
+                    src={imgUrl} 
+                    alt={`${product.name} - Photo ${idx + 1}`} 
+                    fill 
+                    sizes="(max-width: 768px) 50vw, 25vw" 
+                    style={{ objectFit: "cover" }} 
+                    priority={idx < 2} 
+                  />
+                </div>
+              ))}
             </div>
-            {product.hoverImage && (
-              <div style={{ position: "relative", aspectRatio: "3 / 4", borderRadius: 4, overflow: "hidden", background: "#EDE5DA" }}>
-                <Image 
-                  src={product.hoverImage} 
-                  alt={`${product.name} detail`} 
-                  fill 
-                  sizes="(max-width: 768px) 100vw, 50vw" 
-                  style={{ objectFit: "cover" }} 
-                />
-              </div>
-            )}
           </div>
 
           {/* Product Info */}
