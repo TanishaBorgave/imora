@@ -1,5 +1,5 @@
 const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
-const token = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN;
+const token = process.env.SHOPIFY_STOREFRONT_TOKEN || process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN;
 const endpoint = `https://${domain}/api/2024-04/graphql.json`;
 
 export async function shopifyFetch<T>({

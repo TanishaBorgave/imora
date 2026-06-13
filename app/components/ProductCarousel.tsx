@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import type { Product } from "../data/products";
+import type { Product } from "../lib/shopify-products";
 
 interface Props {
   title: string;
