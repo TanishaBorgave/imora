@@ -3,86 +3,91 @@ import PolicyWrapper from "../../components/PolicyWrapper";
 export default function ShippingPolicy() {
   return (
     <PolicyWrapper title="Shipping Policy">
+      <p style={{ marginBottom: "24px", fontStyle: "italic", opacity: 0.8 }}>
+        Last Updated: April 08, 2026
+      </p>
+
       <section>
-        <h2>Shipping Information</h2>
         <p>
-          We are committed to ensuring your order arrives promptly and in perfect condition. Please review our shipping policy details below.
+          At IMORA, we aim to deliver your orders quickly and safely. Please review our shipping guidelines below for a smooth shopping experience.
         </p>
       </section>
 
       <section>
-        <h2>Processing Time</h2>
+        <h2>Shipping Across India</h2>
         <p>
-          Orders are typically processed and shipped within 2-3 business days. During peak seasons (festivals, holidays), processing may take up to 5 business days. You will receive a confirmation email with tracking details once your order ships.
+          We offer shipping across India through trusted courier partners to ensure secure and timely delivery.
         </p>
-      </section>
-
-      <section>
-        <h2>Shipping Methods & Delivery Times</h2>
-        <p>We offer multiple shipping options:</p>
         <ul>
-          <li><strong>Standard Shipping (5-7 business days):</strong> Delivery within India</li>
-          <li><strong>Express Shipping (2-3 business days):</strong> For urgent orders</li>
-          <li><strong>Overnight Shipping (Next day):</strong> Available in selected cities</li>
-          <li><strong>International Shipping:</strong> Available to select countries, 10-15 business days</li>
+          <li>Free shipping is available on all prepaid orders</li>
+          <li>A nominal fee may apply for Cash on Delivery (COD) orders</li>
         </ul>
+      </section>
+
+      <section>
+        <h2>Order Processing Time</h2>
+        <ul>
+          <li>Orders are usually processed within 1–2 business days</li>
+          <li>Orders are dispatched after successful confirmation</li>
+          <li>Orders placed on weekends or public holidays will be processed on the next working day.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Delivery Timeline</h2>
+        <ul>
+          <li>Metro cities: 2–4 business days</li>
+          <li>Other locations: 3–7 business days</li>
+        </ul>
+        <p>
+          Delivery timelines may vary based on location and external factors such as weather or logistics delays.
+        </p>
+      </section>
+
+      <section>
+        <h2>Can I Reschedule My Delivery?</h2>
+        <p>If you are unavailable at the time of delivery:</p>
+        <ul>
+          <li>You can contact the courier partner to reschedule delivery</li>
+          <li>You may also opt for self-pickup from the nearest courier facility</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>What If My Order Is Delayed?</h2>
+        <p>
+          While we strive to deliver on time, delays may occur due to unforeseen circumstances.
+        </p>
+        <p>
+          In such cases, you can contact our support team with your order ID for assistance.
+        </p>
       </section>
 
       <section>
         <h2>Shipping Charges</h2>
-        <p>
-          Shipping costs are calculated based on your location and shipping method selected at checkout.
-        </p>
         <ul>
-          <li>Free shipping on orders above ₹2,000 (Standard Shipping)</li>
-          <li>Orders below ₹2,000: Shipping charges applicable</li>
-          <li>Express and Overnight shipping: Additional charges apply</li>
+          <li>Prepaid Orders: Free shipping</li>
+          <li>COD Orders: Charges will be displayed at checkout</li>
         </ul>
       </section>
 
       <section>
-        <h2>Tracking Your Order</h2>
+        <h2>Is There a Limit for COD Orders?</h2>
         <p>
-          Once your order ships, you will receive an email with a tracking number. You can use this number to track your package in real-time through our carrier's website.
+          Yes, Cash on Delivery is available for orders up to ₹ 5000, subject to serviceability.
         </p>
       </section>
 
       <section>
-        <h2>Delivery Address</h2>
-        <p>
-          Please ensure your delivery address is accurate and complete at the time of checkout. We are not responsible for:
-        </p>
+        <h2>Order Tracking</h2>
+        <p>You can track your order easily:</p>
         <ul>
-          <li>Delays due to incorrect address information</li>
-          <li>Undeliverable packages due to address errors</li>
-          <li>Packages held at courier facilities due to incomplete address</li>
+          <li>Visit the My Orders section in your account</li>
+          <li>Use the Track Order option on our website</li>
+          <li>Enter your order ID to view real-time status</li>
         </ul>
-      </section>
-
-      <section>
-        <h2>Damaged or Lost Packages</h2>
         <p>
-          If your package arrives damaged or is lost during transit:
-        </p>
-        <ul>
-          <li>Contact us immediately at shipping@imora.in with photos</li>
-          <li>Provide your order number and tracking details</li>
-          <li>We will file a claim with the courier and arrange a replacement or refund</li>
-          <li>Please retain the packaging for inspection if needed</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>International Shipping</h2>
-        <p>
-          International customers are responsible for any customs duties, taxes, or import fees. Delivery times vary by country and customs clearance. We partner with reliable international couriers to ensure safe delivery.
-        </p>
-      </section>
-
-      <section>
-        <h2>Need Help?</h2>
-        <p>
-          For shipping inquiries or concerns, please contact us at shipping@imora.in
+          Tracking details will also be shared via SMS/email once your order is shipped.
         </p>
       </section>
     </PolicyWrapper>

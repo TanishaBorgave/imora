@@ -1,11 +1,88 @@
 "use client";
 
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { categories } from "../data/categories";
 
 export default function CategoryGrid() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isJumpingRef = useRef(false);
+
+  // Duplicate categories to form 3 groups: [Group A, Group B, Group C]
+  const repeatedCategories = [
+    ...categories.map((cat, idx) => ({ ...cat, uniqueKey: `${cat.slug}-copy-0-${idx}` })),
+    ...categories.map((cat, idx) => ({ ...cat, uniqueKey: `${cat.slug}-copy-1-${idx}` })),
+    ...categories.map((cat, idx) => ({ ...cat, uniqueKey: `${cat.slug}-copy-2-${idx}` })),
+  ];
+
+  // Set up the initial scroll position to the start of Group B.
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container || categories.length === 0) return;
+
+    const groupLength = categories.length;
+
+    const setInitialScroll = () => {
+      const children = container.children;
+      if (children.length < groupLength * 3) return;
+
+      const firstGroupStart = (children[0] as HTMLElement).offsetLeft;
+      const secondGroupStart = (children[groupLength] as HTMLElement).offsetLeft;
+      
+      isJumpingRef.current = true;
+      container.scrollLeft = secondGroupStart - firstGroupStart;
+
+      setTimeout(() => {
+        isJumpingRef.current = false;
+      }, 50);
+    };
+
+    setInitialScroll();
+
+    // Fallbacks to handle late image/font loads shifting offsets
+    const timer1 = setTimeout(setInitialScroll, 100);
+    const timer2 = setTimeout(setInitialScroll, 500);
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, []);
+
+  const handleScroll = () => {
+    const container = scrollRef.current;
+    if (!container || isJumpingRef.current || categories.length === 0) return;
+
+    const groupLength = categories.length;
+    const children = container.children;
+    if (children.length < groupLength * 3) return;
+
+    const firstGroupStart = (children[0] as HTMLElement).offsetLeft;
+    const secondGroupStart = (children[groupLength] as HTMLElement).offsetLeft;
+    const thirdGroupStart = (children[groupLength * 2] as HTMLElement).offsetLeft;
+    const groupWidth = thirdGroupStart - secondGroupStart;
+
+    const currentScroll = container.scrollLeft;
+    const boundaryLeft = secondGroupStart - firstGroupStart;
+    const boundaryRight = thirdGroupStart - firstGroupStart;
+
+    // Buffer to handle floating point rounding differences safely
+    if (currentScroll < boundaryLeft - 10) {
+      isJumpingRef.current = true;
+      container.scrollLeft = currentScroll + groupWidth;
+      setTimeout(() => {
+        isJumpingRef.current = false;
+      }, 50);
+    } else if (currentScroll >= boundaryRight - 10) {
+      isJumpingRef.current = true;
+      container.scrollLeft = currentScroll - groupWidth;
+      setTimeout(() => {
+        isJumpingRef.current = false;
+      }, 50);
+    }
+  };
   return (
     <>
       <style>{`
@@ -35,6 +112,7 @@ export default function CategoryGrid() {
 
           scrollbar-width: none;
           -ms-overflow-style: none;
+          position: relative;
 
           mask-image: linear-gradient(
             to right,
@@ -77,12 +155,20 @@ export default function CategoryGrid() {
           display: block;
           text-decoration: none;
           cursor: pointer;
+
+          /* Outer border directly on the card to prevent desync */
+          border: 1.5px solid rgba(217, 162, 115, 0.3);
+          transition: border-color 0.4s ease;
+        }
+
+        .arch-card:hover {
+          border-color: rgba(217, 162, 115, 0.55);
         }
 
         .arch-border {
           position: absolute;
-          inset: 0;
-          border-radius: 999px 999px 16px 16px;
+          inset: 3px; /* Offset inward by 3px */
+          border-radius: 996px 996px 13px 13px; /* Concentric radius */
           padding: 4px;
 
           background: linear-gradient(
@@ -106,24 +192,6 @@ export default function CategoryGrid() {
           transition: all 0.4s ease;
         }
 
-        .arch-card::before {
-          content: "";
-          position: absolute;
-          inset: -3px;
-
-          border-radius: 999px 999px 18px 18px;
-          border: 1.5px solid rgba(217, 162, 115, 0.3);
-
-          pointer-events: none;
-          z-index: 1;
-
-          transition: border-color 0.4s ease;
-        }
-
-        .arch-card:hover::before {
-          border-color: rgba(217, 162, 115, 0.55);
-        }
-
         .arch-card:hover .arch-border {
           background: linear-gradient(
             160deg,
@@ -135,9 +203,9 @@ export default function CategoryGrid() {
 
         .arch-img {
           position: absolute;
-          inset: 4px;
+          inset: 7px; /* Offset inward by 7px */
 
-          border-radius: 995px 995px 12px 12px;
+          border-radius: 992px 992px 9px 9px; /* Concentric radius */
           overflow: hidden;
 
           z-index: 0;
@@ -263,15 +331,15 @@ export default function CategoryGrid() {
         </motion.p>
 
         <div className="cat-container">
-          <div className="cat-scroll">
-            {categories.map((cat, i) => (
+          <div ref={scrollRef} onScroll={handleScroll} className="cat-scroll">
+            {repeatedCategories.map((cat, i) => (
               <motion.div
-                key={cat.slug}
+                key={cat.uniqueKey}
                 className="cat-card-wrapper"
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.55, delay: i * 0.1 }}
+                transition={{ duration: 0.55, delay: (i % categories.length) * 0.1 }}
               >
                 <Link
                   href={`/collections/${cat.slug}`}

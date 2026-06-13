@@ -11,13 +11,13 @@ export default function ProductCard({ product }: ProductCardProps) {
     <Link
       href={`/products/${product.slug}`}
       className="hover-zoom"
-      style={{ display: "block", textDecoration: "none", flexShrink: 0, borderRadius: 5, overflow: "hidden", background: "#fff" }}
+      style={{ display: "block", textDecoration: "none", flexShrink: 0, borderRadius: 0, overflow: "hidden", background: "#fff" }}
     >
       <div
         style={{
           position: "relative",
           aspectRatio: "3 / 4",
-          borderRadius: 5,
+          borderRadius: 0,
           overflow: "hidden",
           background: "#EDE5DA",
           marginBottom: 14          
