@@ -59,6 +59,18 @@ export const GET_PRODUCT_BY_HANDLE = `
       description
       productType
       tags
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      compareAtPriceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
       images(first: 5) {
         edges {
           node {
